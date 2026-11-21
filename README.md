@@ -2,7 +2,7 @@
 
 A public log of a year of short stories and a thousand nights of reading.
 
-**→ [Read the log](https://yourusername.github.io)**
+**→ [Read the log](https://joserenatocn.github.io)**
 
 ---
 
