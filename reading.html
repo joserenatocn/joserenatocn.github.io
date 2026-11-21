@@ -3,24 +3,29 @@ layout: default
 title: Reading
 permalink: /reading/
 ---
+{% assign nights = site.data.nights %}
+{% assign n_count = nights | size %}
 
 <h1>Reading</h1>
-<p class="lede">Model stories and craft books read alongside the challenge.</p>
+<p class="lede" style="margin-bottom: 2.25rem;">Every night: one short story, one poem, one essay.</p>
 
-{% if site.data.reading and site.data.reading.size > 0 %}
-<table class="log">
-  <thead><tr><th>Wk</th><th>Title</th><th>Author</th><th>Why</th></tr></thead>
+{% if n_count > 0 %}
+<table class="log nights">
+  <thead><tr><th>Night</th><th>Date</th><th>Story</th><th>Poem</th><th>Essay</th></tr></thead>
   <tbody>
-  {% for r in site.data.reading %}
+  {% assign recent = nights | reverse %}
+  {% for night in recent %}
+    {% assign num = n_count | minus: forloop.index0 %}
     <tr>
-      <td class="wk">{{ r.week }}</td>
-      <td>{% if r.link %}<a href="{{ r.link }}">{{ r.title }}</a>{% else %}<em>{{ r.title }}</em>{% endif %}</td>
-      <td class="muted">{{ r.author }}</td>
-      <td class="muted">{{ r.note }}</td>
+      <td class="wk">{{ num }}</td>
+      <td class="muted nowrap">{{ night.date | date: "%b %-d, %Y" }}</td>
+      <td>{{ night.story }}</td>
+      <td>{{ night.poem }}</td>
+      <td>{{ night.essay }}</td>
     </tr>
   {% endfor %}
   </tbody>
 </table>
 {% else %}
-<p class="empty">Nothing logged yet.</p>
+<p class="empty">Night 1 hasn't happened yet.</p>
 {% endif %}

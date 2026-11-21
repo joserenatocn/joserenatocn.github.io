@@ -1,17 +1,74 @@
 ---
 layout: default
 ---
+{% comment %} ---------- Reading numbers ---------- {% endcomment %}
+{% assign nights = site.data.nights %}
+{% assign n_count = nights | size %}
+{% assign n_pct = n_count | times: 100.0 | divided_by: site.nights_goal %}
+{% if n_pct > 100 %}{% assign n_pct = 100 %}{% endif %}
+{% assign n_left = site.nights_goal | minus: n_count %}
+{% if n_left < 0 %}{% assign n_left = 0 %}{% endif %}
+
+{% comment %} ---------- Writing numbers ---------- {% endcomment %}
 {% assign stories = site.stories | sort: "week" | reverse %}
 {% assign count = site.stories | size %}
 {% assign total_words = 0 %}
 {% for s in site.stories %}{% assign total_words = total_words | plus: s.words %}{% endfor %}
-{% assign pct = count | times: 100 | divided_by: site.goal %}
+{% assign pct = count | times: 100.0 | divided_by: site.goal %}
 {% if pct > 100 %}{% assign pct = 100 %}{% endif %}
 
 <section class="hero">
   <p class="eyebrow">{{ site.start_date }}</p>
-  <h1>{{ site.tagline }}</h1>
-  <p class="lede">One short story a week, drafted early and revised by Sunday. This is the log.</p>
+  <h1>{{ site.title }}</h1>
+  <p class="lede">A story, a poem and an essay every night for a thousand nights. One short story written every week for a year.</p>
+</section>
+
+<!-- ================= 1,000 NIGHTS ================= -->
+<section class="panel">
+  <div class="panel-head">
+    <h2>1,000 Nights</h2>
+    <a class="more" href="{{ '/reading/' | relative_url }}">Full log →</a>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><span class="num">{{ n_count }}<small>/{{ site.nights_goal }}</small></span><span class="lbl">nights</span></div>
+    <div class="stat"><span class="num">{{ n_left }}</span><span class="lbl">to go</span></div>
+    {% if n_count > 0 %}
+    {% assign last = nights | last %}
+    <div class="stat"><span class="num">{{ last.date | date: "%b %-d" }}</span><span class="lbl">last read</span></div>
+    {% endif %}
+  </div>
+
+  <div class="progress milestones" role="progressbar" aria-valuenow="{{ n_count }}" aria-valuemin="0" aria-valuemax="{{ site.nights_goal }}">
+    <div class="bar" style="width: {{ n_pct }}%"></div>
+  </div>
+  <div class="ticks" aria-hidden="true"><span>0</span><span>250</span><span>500</span><span>750</span><span>1,000</span></div>
+
+  {% if n_count > 0 %}
+  <ol class="recent">
+    {% assign recent = nights | reverse %}
+    {% for night in recent limit: 3 %}
+    {% assign num = n_count | minus: forloop.index0 %}
+    <li>
+      <p class="night-num">Night {{ num }} · {{ night.date | date: "%B %-d" }}</p>
+      <dl>
+        {% if night.story %}<div><dt>Story</dt><dd>{{ night.story }}</dd></div>{% endif %}
+        {% if night.poem %}<div><dt>Poem</dt><dd>{{ night.poem }}</dd></div>{% endif %}
+        {% if night.essay %}<div><dt>Essay</dt><dd>{{ night.essay }}</dd></div>{% endif %}
+      </dl>
+    </li>
+    {% endfor %}
+  </ol>
+  {% else %}
+  <p class="empty">Night 1 hasn't happened yet.</p>
+  {% endif %}
+</section>
+
+<!-- ================= 52 STORIES ================= -->
+<section class="panel">
+  <div class="panel-head">
+    <h2>52 Stories</h2>
+  </div>
 
   <div class="stats">
     <div class="stat"><span class="num">{{ count }}<small>/{{ site.goal }}</small></span><span class="lbl">stories</span></div>
@@ -32,10 +89,8 @@ layout: default
       {% if done %}<a class="dot done" href="{{ done.url | relative_url }}" title="Week {{ i }}: {{ done.title }}"></a>{% else %}<span class="dot" title="Week {{ i }}"></span>{% endif %}
     {% endfor %}
   </div>
-</section>
 
-<section>
-  <h2>The log</h2>
+  <h3>The log</h3>
   {% if count == 0 %}
     <p class="empty">Week 1 hasn't been written yet.</p>
   {% else %}
@@ -55,17 +110,13 @@ layout: default
       {% endfor %}
     </tbody>
   </table>
-  {% endif %}
-</section>
 
-{% if count > 0 %}
-<section>
-  <h2>By narrator stance</h2>
+  <h3>By narrator stance</h3>
   {% assign groups = site.stories | group_by: "stance" | sort: "size" | reverse %}
   <ul class="stances">
     {% for g in groups %}
     <li><span>{{ g.name | default: "Unlabeled" }}</span><span class="muted">{{ g.size }}</span></li>
     {% endfor %}
   </ul>
+  {% endif %}
 </section>
-{% endif %}

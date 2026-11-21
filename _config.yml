@@ -1,12 +1,13 @@
 # ------------------------------------------------------------
 #  Site settings — edit these
 # ------------------------------------------------------------
-title: "52 Stories"
-tagline: "A year of the Bradbury Challenge"
+title: "The Bradbury Challenge"
+tagline: "52 stories · 1,000 nights"
 author: "Jose Renato"
-description: "A public log of writing one short story a week for a year."
-goal: 52              # stories in the challenge
-start_date: "2027"    # shown on the homepage; change to whatever you like
+description: "A public log of a year of short stories and a thousand nights of reading."
+goal: 52              # stories in the writing challenge
+nights_goal: 1000     # nights in the reading challenge
+start_date: "2027"    # shown at the top of the homepage
 
 # ------------------------------------------------------------
 #  Leave these alone unless you know you want to change them

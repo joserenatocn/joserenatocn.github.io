@@ -40,7 +40,7 @@ I'll try to be as strict as possible within the constraints of, well, life. But 
 
 ## Why I won't post my stories (at least initially)
 
-Most magazines consider a story published once it appears anywhere online, including a personal site. So this log records the process: the title, length, narrator stance, what I was practicing, and what I learned. The stories themselves wills tay in a drawer (at least initially).
+Most magazines consider a story published once it appears anywhere online, including a personal site. So this log records the process: the title, length, narrator stance, what I was practicing, and what I learned. The stories themselves will stay in a drawer.
 
 ---
 
