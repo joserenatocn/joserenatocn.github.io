@@ -1,0 +1,32 @@
+# ------------------------------------------------------------
+#  Site settings — edit these
+# ------------------------------------------------------------
+title: "52 Stories"
+tagline: "A year of the Bradbury Challenge"
+author: "Jose Renato"
+description: "A public log of writing one short story a week for a year."
+goal: 52              # stories in the challenge
+start_date: "2027"    # shown on the homepage; change to whatever you like
+
+# ------------------------------------------------------------
+#  Leave these alone unless you know you want to change them
+# ------------------------------------------------------------
+url: ""
+baseurl: ""
+markdown: kramdown
+
+collections:
+  stories:
+    output: true
+    permalink: /week/:name/
+
+defaults:
+  - scope:
+      path: ""
+      type: stories
+    values:
+      layout: story
+
+exclude:
+  - README.md
+  - _templates

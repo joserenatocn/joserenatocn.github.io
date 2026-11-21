@@ -1,0 +1,8 @@
+# One entry per thing read. Copy a block and edit it.
+# "week" can be left blank for books read across many weeks.
+
+- week:
+  title: "Steering the Craft"
+  author: "Ursula K. Le Guin"
+  note: "Sentence-level revision exercises"
+  link:

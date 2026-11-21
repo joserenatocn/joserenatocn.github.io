@@ -1,0 +1,71 @@
+---
+layout: default
+---
+{% assign stories = site.stories | sort: "week" | reverse %}
+{% assign count = site.stories | size %}
+{% assign total_words = 0 %}
+{% for s in site.stories %}{% assign total_words = total_words | plus: s.words %}{% endfor %}
+{% assign pct = count | times: 100 | divided_by: site.goal %}
+{% if pct > 100 %}{% assign pct = 100 %}{% endif %}
+
+<section class="hero">
+  <p class="eyebrow">{{ site.start_date }}</p>
+  <h1>{{ site.tagline }}</h1>
+  <p class="lede">One short story a week, drafted early and revised by Sunday. This is the log.</p>
+
+  <div class="stats">
+    <div class="stat"><span class="num">{{ count }}<small>/{{ site.goal }}</small></span><span class="lbl">stories</span></div>
+    <div class="stat"><span class="num">{{ total_words }}</span><span class="lbl">words</span></div>
+    {% if count > 0 %}
+    {% assign avg = total_words | divided_by: count %}
+    <div class="stat"><span class="num">{{ avg }}</span><span class="lbl">avg. length</span></div>
+    {% endif %}
+  </div>
+
+  <div class="progress" role="progressbar" aria-valuenow="{{ count }}" aria-valuemin="0" aria-valuemax="{{ site.goal }}">
+    <div class="bar" style="width: {{ pct }}%"></div>
+  </div>
+
+  <div class="weeks" aria-hidden="true">
+    {% for i in (1..site.goal) %}
+      {% assign done = site.stories | where: "week", i | first %}
+      {% if done %}<a class="dot done" href="{{ done.url | relative_url }}" title="Week {{ i }}: {{ done.title }}"></a>{% else %}<span class="dot" title="Week {{ i }}"></span>{% endif %}
+    {% endfor %}
+  </div>
+</section>
+
+<section>
+  <h2>The log</h2>
+  {% if count == 0 %}
+    <p class="empty">Week 1 hasn't been written yet.</p>
+  {% else %}
+  <table class="log">
+    <thead>
+      <tr><th>Wk</th><th>Title</th><th>Stance</th><th class="r">Words</th><th>Status</th></tr>
+    </thead>
+    <tbody>
+      {% for s in stories %}
+      <tr>
+        <td class="wk">{{ s.week }}</td>
+        <td><a href="{{ s.url | relative_url }}">{{ s.title }}</a></td>
+        <td class="muted">{{ s.stance }}</td>
+        <td class="r">{{ s.words }}</td>
+        <td>{% if s.status %}<span class="tag tag-{{ s.status | slugify }}">{{ s.status }}</span>{% endif %}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% endif %}
+</section>
+
+{% if count > 0 %}
+<section>
+  <h2>By narrator stance</h2>
+  {% assign groups = site.stories | group_by: "stance" | sort: "size" | reverse %}
+  <ul class="stances">
+    {% for g in groups %}
+    <li><span>{{ g.name | default: "Unlabeled" }}</span><span class="muted">{{ g.size }}</span></li>
+    {% endfor %}
+  </ul>
+</section>
+{% endif %}

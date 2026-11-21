@@ -1,0 +1,47 @@
+---
+layout: default
+---
+{% assign sorted = site.stories | sort: "week" %}
+{% for s in sorted %}
+  {% if s.url == page.url %}
+    {% assign idx = forloop.index0 %}
+  {% endif %}
+{% endfor %}
+{% assign prev_idx = idx | minus: 1 %}
+{% assign next_idx = idx | plus: 1 %}
+
+<article class="story">
+  <p class="eyebrow">Week {{ page.week }}{% if page.date %} · {{ page.date | date: "%B %-d, %Y" }}{% endif %}</p>
+  <h1>{{ page.title }}</h1>
+
+  <dl class="meta">
+    {% if page.words %}<div><dt>Length</dt><dd>{{ page.words }} words</dd></div>{% endif %}
+    {% if page.stance %}<div><dt>Narrator stance</dt><dd>{{ page.stance }}</dd></div>{% endif %}
+    {% if page.craft_focus %}<div><dt>Revision focus</dt><dd>{{ page.craft_focus }}</dd></div>{% endif %}
+    {% if page.model_story %}<div><dt>Model story</dt><dd>{{ page.model_story }}</dd></div>{% endif %}
+    {% if page.world %}<div><dt>Setting</dt><dd>{{ page.world }}</dd></div>{% endif %}
+    {% if page.status %}<div><dt>Status</dt><dd><span class="tag tag-{{ page.status | slugify }}">{{ page.status }}</span></dd></div>{% endif %}
+  </dl>
+
+  {% if page.lesson %}
+  <blockquote class="lesson">
+    <p class="label">What I learned</p>
+    <p>{{ page.lesson }}</p>
+  </blockquote>
+  {% endif %}
+
+  <div class="notes">
+    {{ content }}
+  </div>
+
+  <nav class="pager">
+    {% if idx > 0 %}
+      {% assign p = sorted[prev_idx] %}
+      <a href="{{ p.url | relative_url }}">← Week {{ p.week }}: {{ p.title }}</a>
+    {% else %}<span></span>{% endif %}
+    {% if next_idx < sorted.size %}
+      {% assign n = sorted[next_idx] %}
+      <a href="{{ n.url | relative_url }}">Week {{ n.week }}: {{ n.title }} →</a>
+    {% endif %}
+  </nav>
+</article>

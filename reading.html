@@ -1,0 +1,26 @@
+---
+layout: default
+title: Reading
+permalink: /reading/
+---
+
+<h1>Reading</h1>
+<p class="lede">Model stories and craft books read alongside the challenge.</p>
+
+{% if site.data.reading and site.data.reading.size > 0 %}
+<table class="log">
+  <thead><tr><th>Wk</th><th>Title</th><th>Author</th><th>Why</th></tr></thead>
+  <tbody>
+  {% for r in site.data.reading %}
+    <tr>
+      <td class="wk">{{ r.week }}</td>
+      <td>{% if r.link %}<a href="{{ r.link }}">{{ r.title }}</a>{% else %}<em>{{ r.title }}</em>{% endif %}</td>
+      <td class="muted">{{ r.author }}</td>
+      <td class="muted">{{ r.note }}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p class="empty">Nothing logged yet.</p>
+{% endif %}
